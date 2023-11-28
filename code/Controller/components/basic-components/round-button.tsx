@@ -1,19 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-
-enum ButtonColors {
-  Green = 'Green',
-  Blue = 'Blue',
-  Yellow = 'Yellow',
-  Red = 'Red',
-}
-
-const ColorKeys = {
-  Green: '#00FF00',
-  Blue: '#5555FF',
-  Yellow: '#BBBB00',
-  Red: '#FF0000',
-};
+import {ButtonColors, ColorKeys} from '../../data/buttons';
 
 const RoundButton = (props: {
   color: ButtonColors;

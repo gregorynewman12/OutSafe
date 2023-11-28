@@ -1,4 +1,3 @@
-import {Buttons} from '../App';
 import {ButtonColors, RoundButton} from './basic-components/round-button';
 
 const DrillButton = (props: {

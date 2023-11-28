@@ -4,88 +4,34 @@
  *
  * @format
  */
+import 'react-native-gesture-handler';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React from 'react';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import ScreenOne from './screens/screen1';
+import ScreenTwo from './screens/screen2';
 
-import React, {useState} from 'react';
-import {Button, Pressable, StyleSheet, Text, View} from 'react-native';
-import DrillButton from './components/drill';
-import ExitButton from './components/exit';
-import SafeButton from './components/safe';
-import SIPButton from './components/sip';
+type RootStackParamList = {
+  ScreenOne: undefined;
+  ScreenTwo: undefined;
+};
 
-enum Buttons {
-  Safe = 'Safe',
-  Drill = 'Drill',
-  SIP = 'Shelter in Place',
-  Exit = 'Exit',
-}
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App(): JSX.Element {
-  const [drill, setDrill] = useState(false);
-  const [button, setButton] = useState<Buttons>();
   return (
-    <View style={styles.page}>
-      <View style={styles.buttons}>
-        <SafeButton button={button} setButton={setButton} />
-        <DrillButton drill={drill} setDrill={setDrill} />
-        <SIPButton button={button} setButton={setButton} />
-        <ExitButton button={button} setButton={setButton} />
-      </View>
-      <Text style={styles.text}>
-        {button
-          ? drill && button !== Buttons.Safe
-            ? `Drill for ${button} option is selected.`
-            : `${button} option is selected.`
-          : ''}
-      </Text>
-      <View style={styles.executeButtonWrapper}>
-        <Pressable
-          style={({pressed}) => [
-            {
-              backgroundColor: pressed ? 'transparent' : 'lightgray',
-              borderColor: pressed ? 'black' : 'lightgray',
-            },
-            styles.executeButton,
-          ]}>
-          <Text style={styles.executeButtonText}>Execute</Text>
-        </Pressable>
-      </View>
-    </View>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <NavigationContainer>
+        {/* Options for the screens are found at: https://reactnavigation.org/docs/stack-navigator/#options */}
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen name="ScreenOne" component={ScreenOne} />
+          <Stack.Screen name="ScreenTwo" component={ScreenTwo} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 
-const styles = StyleSheet.create({
-  buttons: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  text: {
-    color: 'black',
-    textAlign: 'center',
-    fontSize: 34,
-  },
-  page: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    height: '100%',
-  },
-  executeButtonWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginRight: 10,
-  },
-  executeButton: {
-    borderWidth: 3,
-    padding: 10,
-    borderRadius: 5,
-  },
-  executeButtonText: {
-    color: 'black',
-    fontSize: 20,
-  },
-});
-
 export default App;
-export {Buttons};
+export type {RootStackParamList};
