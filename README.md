@@ -2,6 +2,8 @@
 
 Capstone project for Tyler, Niranjan, and Gregory's OutSafe Campus Alert Management System
 
+Version 0 video [here](https://media.oregonstate.edu/media/t/1_f8hyyx6f).
+
 # Setup Controller Software
 ## Installing Tools
 
