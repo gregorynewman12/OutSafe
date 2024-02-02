@@ -1,4 +1,4 @@
-import {Buttons} from '../App';
+import {Buttons} from '../data/buttons';
 import {ButtonColors, RoundButton} from './basic-components/round-button';
 
 const ExitButton = (props: {
