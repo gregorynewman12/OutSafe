@@ -1,3 +1,6 @@
+*** TO INSTALL MOSQUITTO MQTT C++ CLIENT:
+https://mosquitto.org/download/
+
 Compile MQTTClient/MQTTServer with the following commands.
 -lmosquitto makes sure to include the Mosquitto library:
 
