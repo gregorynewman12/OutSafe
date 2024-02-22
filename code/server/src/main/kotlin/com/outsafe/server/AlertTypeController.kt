@@ -1,5 +1,6 @@
 package com.outsafe.server
 
+import com.outsafe.server.data.model.Alert
 import com.outsafe.server.data.model.AlertType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -12,5 +13,5 @@ class AlertTypeController(private val alertTypeService: AlertTypeService) {
     fun getAlert() = alertTypeService.getAlert()
 
     @PutMapping("/set")
-    fun setAlert(@RequestBody payload: AlertType) = alertTypeService.setAlert(payload)
+    fun setAlert(@RequestBody payload: Alert) = alertTypeService.setAlert(payload)
 }
