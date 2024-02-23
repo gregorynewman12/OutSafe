@@ -27,6 +27,7 @@ listener 1883 0.0.0.0
 
 # This allows connection without authentication credentials
 allow_anonymous true
+
 ----------------------------------------------------------
 
 3. Restart/start the Mosquitto service or make sure it is running. On Linux (Systemd-based):
