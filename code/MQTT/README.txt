@@ -1,24 +1,13 @@
-TO INSTALL MOSQUITTO MQTT C++ CLIENT:
-https://mosquitto.org/download/
+**********************************************
+TO INSTALL AND RUN MOSQUITTO MQTT C++ CLIENT *
+**********************************************
 
-Compile MQTTClient/MQTTServer with the following commands, 
-where "client" and "server" will be the names of the executable files.
--lmosquitto makes sure to include the Mosquitto library:
+1. Install Mosquitto: https://mosquitto.org/download/
 
-g++ MQTTClient.cpp -o client -lmosquitto
-g++ MQTTServer.cpp -o server -lmosquitto
+2. Edit the Mosquitto configuration file mosquitto.conf (on Linux, located at /etc/mosquitto/mosquitto.conf)
+to contain the following:
 
-You can use these commands to test Mosquitto functionality outside of a C++ program. 
-This requires you have the mosquitto-clients package installed:
-
-Publisher: mosquitto_pub -t test -m "Hello!"
-Subscriber: mosquitto_sub -h publisher-ip-address-here -v -t "test"
-
-*** POTENTIAL ISSUES
-
-You may need to modify your configuration file to make sure that incoming connections will be accepted.
-Mine is located at /etc/mosquitto/mosquitto.conf and currently looks like:
-
+----------------------------------------------------------
 # Place your local configuration in /etc/mosquitto/conf.d/
 #
 # A full description of the configuration file is at
@@ -38,3 +27,36 @@ listener 1883 0.0.0.0
 
 # This allows connection without authentication credentials
 allow_anonymous true
+
+----------------------------------------------------------
+
+3. Restart/start the Mosquitto service or make sure it is running. On Linux (Systemd-based):
+"sudo systemctl [re]start mosquitto". A restart is necessary after editing the configuration file.
+
+
+************************************************************
+TESTING MOSQUITTO FUNCTIONALITY                            *
+************************************************************
+
+You can use these commands to test Mosquitto functionality outside of a C++ program. 
+This requires you have the mosquitto-clients package installed.
+
+Publisher: mosquitto_pub -t test -m "Hello!"
+Subscriber: mosquitto_sub -h publisher-ip-address-here -v -t "test"
+
+(@publisher-ip-address-here should be the ip of the publisher's device)
+
+It is best to first try this in two terminal windows on the same device with localhost as the ip,
+and then attempt it over the network between two devices.
+
+
+************************************************************
+COMPILING MQTTClient.cpp and MQTTServer.cpp                *
+************************************************************
+
+Use the following commands to compile the files:
+
+g++ MQTTClient.cpp -o client -lmosquitto
+g++ MQTTServer.cpp -o server -lmosquitto
+(-lmosquitto makes sure to include the Mosquitto library)
+

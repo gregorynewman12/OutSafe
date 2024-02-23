@@ -13,6 +13,8 @@ int main()
         return 1;
     }
 
+    // IP Address in mosquitto_connect is wherever the broker is, NOT the address of the subscriber!
+    // The broker is running on the same machine as the one running the client program, so localhost is used.
     int rc = mosquitto_connect(mqtt_client, "localhost", 1883, 60);
     if (rc != MOSQ_ERR_SUCCESS)
     {
