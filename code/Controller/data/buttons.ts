@@ -1,7 +1,7 @@
 enum Buttons {
   Safe = 'Safe',
   Drill = 'Drill',
-  SIP = 'Shelter in Place',
+  SIP = 'ShelterInPlace',
   Exit = 'Exit',
 }
 

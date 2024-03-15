@@ -1,5 +1,5 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {RootStackParamList} from '../App';
@@ -8,6 +8,7 @@ import ExitButton from '../components/exit';
 import SafeButton from '../components/safe';
 import SIPButton from '../components/sip';
 import {Buttons} from '../data/buttons';
+import {getStatus, setStatus} from "../utils/api";
 
 interface Props {
   navigation: NativeStackNavigationProp<RootStackParamList, 'ScreenOne'>;
@@ -21,6 +22,13 @@ const ScreenOne = ({navigation}: Props) => {
     .failOffsetY([-10, 10])
     .failOffsetX(10)
     .onStart(() => navigation.navigate('ScreenTwo'));
+
+  const executeMessage = () => {
+    if (button && button != Buttons.Drill) {
+      setStatus(button, drill);
+    }
+  }
+
   return (
     <GestureDetector gesture={swipe}>
       <View style={styles.page}>
@@ -39,6 +47,7 @@ const ScreenOne = ({navigation}: Props) => {
         </Text>
         <View style={styles.executeButtonWrapper}>
           <Pressable
+              onPress={executeMessage}
             style={({pressed}) => [
               {
                 backgroundColor: pressed ? 'transparent' : 'lightgray',

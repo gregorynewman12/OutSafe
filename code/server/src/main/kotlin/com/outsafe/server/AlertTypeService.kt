@@ -26,4 +26,9 @@ class AlertTypeService {
         alert = newAlert
         return makeMessage(alert, customMessage)
     }
+
+    fun customAlert(message: Custom): String? {
+        customMessage = message
+        return customMessage.message
+    }
 }

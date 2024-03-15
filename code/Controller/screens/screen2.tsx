@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import {RootStackParamList} from '../App';
+import {setCustom} from "../utils/api";
 
 interface Props {
   navigation: NativeStackNavigationProp<RootStackParamList, 'ScreenOne'>;
@@ -15,6 +16,10 @@ const ScreenTwo = ({navigation}: Props) => {
     .failOffsetY([-10, 10])
     .failOffsetX(-10)
     .onStart(() => navigation.navigate('ScreenOne'));
+
+  const sendCustom = () => {
+    setCustom(text);
+  }
   return (
     <GestureDetector gesture={swipe}>
       <View style={styles.page}>
@@ -25,6 +30,7 @@ const ScreenTwo = ({navigation}: Props) => {
         />
         <View style={styles.executeButtonWrapper}>
           <Pressable
+              onPress={sendCustom}
             style={({pressed}) => [
               {
                 backgroundColor: pressed ? 'transparent' : 'lightgray',
