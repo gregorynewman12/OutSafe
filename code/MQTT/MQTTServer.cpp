@@ -1,5 +1,5 @@
 #include <iostream>
-#include <mosquitto.h>
+#include "mosquitto.h"
 
 void message_callback(struct mosquitto *mqtt_client, void *userdata, const struct mosquitto_message *message)
 {
@@ -23,7 +23,7 @@ int main()
 
     mosquitto_message_callback_set(mqtt_client, message_callback);
 
-    int rc = mosquitto_connect(mqtt_client, "localhost", 1883, 60);
+    int rc = mosquitto_connect(mqtt_client, "10.0.0.238", 1883, 60);
     if (rc != MOSQ_ERR_SUCCESS)
     {
         std::cerr << "Failed to connect to broker: " << mosquitto_strerror(rc) << std::endl;
