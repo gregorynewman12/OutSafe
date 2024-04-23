@@ -1,0 +1,19 @@
+{
+  "name": "node_server",
+  "version": "1.0.0",
+  "description": "This is a node.js server for the CAMS product.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=development nodemon server.js",
+    "start": "node server.js"
+  },
+  "author": "CAMS Engineering",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
