@@ -1,8 +1,10 @@
 import {Buttons} from "../data/buttons";
 
+const address = "192.168.0.100:8000";
+
 const getStatus = async () => {
     try {
-        return await fetch(`http://10.0.2.2:8080/alert`);
+        return await fetch(`http://${address}/`);
     } catch (e) {
         console.log(e);
     }
@@ -18,7 +20,7 @@ const setStatus = async (alert: Buttons, drill: boolean) => {
                 drill: drill
             })
         };
-        return await fetch("http://10.0.2.2:8080/set", requestOptions);
+        return await fetch(`http://${address}/`, requestOptions);
     } catch (e) {
         console.log(e);
     }
@@ -33,7 +35,7 @@ const setCustom = async (message: String) => {
                 message: message
             })
         };
-        return await fetch("http://10.0.2.2:8080/custom", requestOptions);
+        return await fetch(`http://${address}/custom`, requestOptions);
     } catch (e) {
         console.log(e);
     }
