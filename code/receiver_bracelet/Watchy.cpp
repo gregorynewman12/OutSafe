@@ -339,6 +339,20 @@ void Watchy::showBuzz() {
   PubSubClient client(espClient);
   auto callback = [&](char* topic, byte* payload, unsigned int length)
   {
+    display.fillScreen(GxEPD_BLACK);
+    display.setFont(&FreeMonoBold9pt7b);
+    display.setCursor(0,18);
+    display.print("OutSafe");
+    display.setCursor(140, 18);
+    if (currentTime.Hour < 10) {
+      display.print("0");
+    }
+    display.print(currentTime.Hour);
+    display.print(":");
+    if (currentTime.Minute < 10) {
+      display.print("0");
+    }
+    display.println(currentTime.Minute);
     Serial.print(topic);
     Serial.print(": ");
 
@@ -352,7 +366,7 @@ void Watchy::showBuzz() {
     for (int i = 0; i < length; i++) {
       display.print((char)payload[i]);
     }
-    display.display(false); // full refresh
+    display.display(true); // full refresh
     vibMotor();
   };
 
@@ -368,7 +382,7 @@ void Watchy::showBuzz() {
     } else {
       Serial.println("failed, rc=");
       Serial.print(client.state());
-      Serial.println(" try again in 2 seconds");
+      Serial.println(" try again in two seconds");
       delay(2000);
     }
   };
