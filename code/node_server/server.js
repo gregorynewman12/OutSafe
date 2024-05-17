@@ -2,7 +2,7 @@ const express = require("express");
 const mqtt = require("mqtt");
 
 const protocol = 'mqtt';
-const host = 'localhost';
+const host = '172.17.0.2';
 const mqtt_port = '1883';
 
 const connectUrl = `${protocol}://${host}:${mqtt_port}`;
