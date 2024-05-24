@@ -1,3 +1,4 @@
+
 #include "Watchy.h"
 #include <string>
 #include <PubSubClient.h>
@@ -9,7 +10,6 @@ GxEPD2_BW<WatchyDisplay, WatchyDisplay::HEIGHT> Watchy::display(
 
 RTC_DATA_ATTR int guiState;
 RTC_DATA_ATTR int menuIndex;
-RTC_DATA_ATTR BMA423 sensor;
 RTC_DATA_ATTR bool WIFI_CONFIGURED;
 RTC_DATA_ATTR bool BLE_CONFIGURED;
 RTC_DATA_ATTR weatherData currentWeather;
@@ -105,12 +105,12 @@ void Watchy::handleButtonPress() {
   if (wakeupBit & MENU_BTN_MASK) {
     if (guiState ==
         WATCHFACE_STATE) { // enter menu state if coming from watch face
-      showMenu(menuIndex, false);
+      showMenu(menuIndex, true);
     } else if (guiState ==
                MAIN_MENU_STATE) { // if already in menu, then select menu item
       switch (menuIndex) {
       case 0:
-        showBuzz();
+        showOutSafe();
         break;
       case 1:
         setupWifi();
@@ -178,7 +178,7 @@ void Watchy::handleButtonPress() {
             MAIN_MENU_STATE) { // if already in menu, then select menu item
           switch (menuIndex) {
           case 0:
-            showBuzz();
+            showOutSafe();
             break;
           case 1:
             setupWifi();
@@ -290,16 +290,11 @@ void Watchy::showFastMenu(byte menuIndex) {
   guiState = MAIN_MENU_STATE;
 }
 
-void Watchy::showBuzz() {
-  /*
-  const char* ssid = "Austin's WiFi";
-  const char* password = "57BananaBarrelsBelowSea";
-  const char* mqtt_server = "10.0.0.238";
-  */
+void Watchy::showOutSafe() {
 
-  const char* ssid = "OutSafe";
-  const char* password = "1234567890!@#$%^&*()";
-  const char* mqtt_server = "192.168.0.100";
+  const char* ssid = "OutSafe"; // WiFi SSID
+  const char* password = "1234567890!@#$%^&*()"; // Password of WiFi Network
+  const char* mqtt_server = "192.168.0.101"; // IP of machine running central controller
 
   // Draws the original watchface (messages will be displayed below header)
   display.fillScreen(GxEPD_BLACK);
@@ -316,7 +311,7 @@ void Watchy::showBuzz() {
     display.print("0");
   }
   display.println(currentTime.Minute);
-  display.display(false); // full refresh
+  display.display(true); // partial refresh
   
   delay(10);
   Serial.println();
@@ -363,6 +358,7 @@ void Watchy::showBuzz() {
     display.setCursor(0, 80);
     display.print(topic);
     display.print(": ");
+    display.setCursor(0, 100);
     for (int i = 0; i < length; i++) {
       display.print((char)payload[i]);
     }
@@ -386,16 +382,15 @@ void Watchy::showBuzz() {
       delay(2000);
     }
   };
-
-  Serial.println("Looping now...");
+  display.setCursor(40,100);
+  display.print("Listening...");
+  display.display(true);
   while (true) {
     if (!client.connected()) {
       reconnect();
     }
     client.loop();
   }
-  display.display(false); // full refresh
-  vibMotor();
   showMenu(menuIndex, false);
 }
 
@@ -412,9 +407,7 @@ void Watchy::vibMotor(uint8_t intervalMs, uint8_t length) {
 void Watchy::showWatchFace(bool partialRefresh) {
   display.setFullWindow();
   drawWatchFace();
-  display.display(partialRefresh
-  
-  ); // partial refresh
+  display.display(partialRefresh); // partial refresh
   guiState = WATCHFACE_STATE;
 }
 
@@ -432,6 +425,8 @@ void Watchy::drawWatchFace() {
     display.print("0");
   }
   display.println(currentTime.Minute);
+  display.setCursor(40,100);
+  display.print("Home Screen");
 }
 
 float Watchy::getBatteryVoltage() {
@@ -567,7 +562,7 @@ void Watchy::showSyncNTP() {
   } else {
     display.println("WiFi Not Configured");
   }
-  display.display(true); // full refresh
+  display.display(true); // partial refresh
   delay(3000);
   showMenu(menuIndex, false);
 }

@@ -10,11 +10,8 @@
 #include <GxEPD2_BW.h>
 #include <Wire.h>
 #include <Fonts/FreeMonoBold9pt7b.h>
-#include "DSEG7_Classic_Bold_53.h"
 #include "Display.h"
 #include "WatchyRTC.h"
-#include "BLE.h"
-#include "bma.h"
 #include "config.h"
 
 typedef struct weatherData
@@ -62,7 +59,7 @@ public:
   void showMenu(byte menuIndex, bool partialRefresh);
   void showFastMenu(byte menuIndex);
   void showAbout();
-  void showBuzz();
+  void showOutSafe();
   void showAccelerometer();
   void showUpdateFW();
   void showSyncNTP();
@@ -82,7 +79,6 @@ public:
                                 // faces
 
 private:
-  void _bmaConfig();
   static void _configModeCallback(WiFiManager *myWiFiManager);
   static uint16_t _readRegister(uint8_t address, uint8_t reg, uint8_t *data,
                                 uint16_t len);
@@ -92,8 +88,6 @@ private:
 
 extern RTC_DATA_ATTR int guiState;
 extern RTC_DATA_ATTR int menuIndex;
-extern RTC_DATA_ATTR BMA423 sensor;
 extern RTC_DATA_ATTR bool WIFI_CONFIGURED;
-extern RTC_DATA_ATTR bool BLE_CONFIGURED;
 
 #endif

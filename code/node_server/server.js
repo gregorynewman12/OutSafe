@@ -2,7 +2,7 @@ const express = require("express");
 const mqtt = require("mqtt");
 
 const protocol = 'mqtt';
-const host = '172.17.0.2';
+const host = '192.168.0.101';
 const mqtt_port = '1883';
 
 const connectUrl = `${protocol}://${host}:${mqtt_port}`;
@@ -19,7 +19,7 @@ let customAlert = "";
 const topic = 'Campus Safety';
 
 const makeMessage = () => {
-    return alertType.replace(/([A-Z])/g, ' $1').trim() + (drill ? " Drill" : "") + (customAlert ? " " + customAlert : "");
+    return alertType.replace(/([A-Z])/g, ' $1').trim() + (drill ? " Drill" : "") + ":" + (customAlert ? " " + customAlert : "");
 }
 
 const validAlert = (s) => (s === "Safe" || s === "ShelterInPlace" || s === "Exit");

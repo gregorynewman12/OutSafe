@@ -15,7 +15,7 @@ int main()
 
     // IP Address in mosquitto_connect is wherever the broker is, NOT the address of the subscriber!
     // The broker is running on the same machine as the one running the client program, so localhost is used.
-    int rc = mosquitto_connect(mqtt_client, "localhost", 1883, 60);
+    int rc = mosquitto_connect(mqtt_client, "192.168.0.101", 1883, 60);
     if (rc != MOSQ_ERR_SUCCESS)
     {
         std::cerr << "Failed to connect to broker: " << mosquitto_strerror(rc) << std::endl;
