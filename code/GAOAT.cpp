@@ -45,38 +45,78 @@ int main() {
 
 // This is the function when integrated into our auto callback function that prints text to the watch in our watchy.cpp file
 /*
-  auto callback = [](char* topic, byte* payload, unsigned int length)
-  {
-      Serial.print(topic);
-      Serial.print(": ");
+auto callback = [&](char* topic, byte* payload, unsigned int length)
+{
+    display.fillScreen(GxEPD_BLACK);
+    display.setFont(&FreeMonoBold9pt7b);
+    display.setCursor(0,18);
+    display.print("OutSafe");
+    display.setCursor(140, 18);
+    if (currentTime.Hour < 10) {
+        display.print("0");
+    }
+    display.print(currentTime.Hour);
+    display.print(":");
+    if (currentTime.Minute < 10) {
+        display.print("0");
+    }
+    display.println(currentTime.Minute);
 
-      String strPayload = "";
-      for (int i = 0; i < length; i++) {
-          strPayload += (char)payload[i];
-      }
+    Serial.print(topic);
+    Serial.print(": ");
 
-      size_t lastIndex = 0;
-      while (lastIndex < strPayload.length()) {
-          String substring = strPayload.substring(lastIndex, min(lastIndex + 18, strPayload.length()));
-
-          int lastSpaceIndex = substring.lastIndexOf(' ');
-
-          if (lastSpaceIndex == -1 || lastSpaceIndex == substring.length() - 1) {
-              Serial.println(substring);
-              display.fillScreen(GxEPD_BLACK);
-              display.setCursor(60, 80);
-              display.println(substring);
-              display.display(false);
-              lastIndex += substring.length();
-          } else {
-              Serial.println(substring.substring(0, lastSpaceIndex));
-              display.fillScreen(GxEPD_BLACK);
-              display.setCursor(60, 80);
-              display.println(substring.substring(0, lastSpaceIndex));
-              display.display(false); 
-              lastIndex += lastSpaceIndex + 1;
-          }
-      }
-  };
+    std::string str((char*)payload, length);
+    size_t lastIndex = 0;
+    
+    display.setFont(&FreeMonoBold9pt7b);
+    display.setCursor(0, 80);
+    display.print(topic);
+    display.print(": ");
+    display.setCursor(0, 100);
+    
+    if (str.length() < 18) {
+        for (int i = 0; i < length; i++) {
+            display.print((char)payload[i]);
+            Serial.print((char)payload[i]);
+        }
+        display.display(true); // full refresh
+        vibMotor();
+        return;
+    } else {
+        std::string substring = str.substr(lastIndex, 18);
+        bool moreChars = true;
+        int cursorY = 100;
+        while (moreChars) {
+            for (int i = static_cast<int>(substring.length()) - 1; i >= 0; --i) {
+                if (substring[i] == ' ') {
+                    display.setCursor(0, cursorY);
+                    display.print(substring.substr(0, i).c_str());
+                    cursorY += 20;
+                    lastIndex += i + 1;
+                    if (lastIndex >= str.length()) {
+                        moreChars = false;
+                        break;
+                    }
+                    substring = str.substr(lastIndex, 18);
+                    break;
+                }
+                if (i == 0) {
+                    display.setCursor(0, cursorY);
+                    display.print(substring.c_str());
+                    cursorY += 20;
+                    lastIndex += substring.length();
+                    if (lastIndex >= str.length()) {
+                        moreChars = false;
+                        break;
+                    }
+                    substring = str.substr(lastIndex, 18);
+                    break;
+                }
+            }
+        }
+        display.display(true); // full refresh
+        vibMotor();
+    }
+};
 
 */
