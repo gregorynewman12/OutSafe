@@ -371,6 +371,16 @@ void Watchy::showOutSafe() {
     client.setServer(mqtt_server, 1883);
     client.setCallback(callback);
     Serial.println("Making MQTT Connection...");
+    /*
+    * IMPORTANT NOTE:
+    * The string parameter passed to client.connect(string s) below MUST BE UNIQUE ON EACH WATCH!
+    * This is the client's MQTT connection ID. If it tries to connect with an ID that is already
+    * connected, it will replace the already-connected watch and only one of them will receive the
+    * messages.
+    *
+    * Possible future solution: Implement a function to assign a random string ID to each watch
+    * each time the client.connect() function is called.
+    */
     if (client.connect("WatchyClient")) {
       Serial.println("Connected!");
       client.subscribe("Campus Safety");
