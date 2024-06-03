@@ -1,1 +1,0 @@
-This is the file which will contain documentation and notes for our project.
